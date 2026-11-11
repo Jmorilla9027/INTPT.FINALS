@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sentinel IDS | Security Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">⬡</div>
+
+            <div>
+                <h2>SENTINEL</h2>
+                <span>INTRUSION DETECTION</span>
+            </div>
+
+        </div>
+
+        <div class="nav-label">MONITORING</div>
+
+        <a href="#overview" class="nav-item active">
+            <span>◫</span> Overview
+        </a>
+
+        <a href="#traffic" class="nav-item">
+            <span>⌁</span> Network Traffic
+        </a>
+
+        <a href="#alerts" class="nav-item">
+            <span>⚠</span> Security Alerts
+        </a>
+
+        <div class="sidebar-bottom">
+
+            <div class="connection-indicator">
+
+                <span class="pulse-dot"></span>
+
+                <div>
+                    <strong>IDS ENGINE</strong>
+                    <small id="sidebar-status">Disconnected</small>
+                </div>
+
+            </div>
+
+            <p>MOCK IDS VERSION 3.0</p>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <div class="breadcrumb">
+                    SECURITY / <span>OVERVIEW</span>
+                </div>
+
+                <h1>Security Dashboard</h1>
+
+                <p class="page-description">
+                    Real-time network intrusion detection and monitoring.
+                </p>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="live-status" id="system-status">
+
+                    <span class="status-dot"></span>
+
+                    <span id="status-text">STOPPED</span>
+
+                </div>
+
+                <div class="clock" id="clock">
+                    --:--:--
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- NETWORK OVERVIEW -->
+
+        <section id="overview">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Network Overview</h2>
+
+                    <p>
+                        Current network activity and threat statistics
+                    </p>
+                </div>
+
+                <span class="live-label">
+
+                    <span class="pulse-dot"></span>
+
+                    LIVE MONITORING
+
+                </span>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span>ACTIVE SOURCES</span>
+
+                        <div class="stat-icon blue">⌘</div>
+
+                    </div>
+
+                    <h2 id="active-sources">0</h2>
+
+                    <p>Unique IPs in last 60 seconds</p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span>FAILED ATTEMPTS</span>
+
+                        <div class="stat-icon orange">⌑</div>
+
+                    </div>
+
+                    <h2 id="failed-attempts">0</h2>
+
+                    <p>Failures in last 60 seconds</p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span>SECURITY ALERTS</span>
+
+                        <div class="stat-icon red">⚠</div>
+
+                    </div>
+
+                    <h2 id="total-alerts">0</h2>
+
+                    <p>Total detected threats</p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span>TOTAL REQUESTS</span>
+
+                        <div class="stat-icon green">↗</div>
+
+                    </div>
+
+                    <h2 id="total-requests">0</h2>
+
+                    <p>Total processed requests</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MONITORING CONTROLS -->
+
+        <section class="control-panel">
+
+            <div>
+
+                <h3>Monitoring Controls</h3>
+
+                <p>
+                    Manage the IDS monitoring process.
+                </p>
+
+            </div>
+
+            <div class="control-buttons">
+
+                <button class="btn btn-start"
+                        onclick="controlIDS('start')">
+
+                    ▶ Start
+
+                </button>
+
+                <button class="btn btn-pause"
+                        onclick="controlIDS('pause')">
+
+                    Ⅱ Pause
+
+                </button>
+
+                <button class="btn btn-stop"
+                        onclick="controlIDS('stop')">
+
+                    ■ Stop
+
+                </button>
+
+                <button class="btn btn-clear"
+                        onclick="clearTraffic()">
+
+                    Clear Display
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- SECURITY ALERTS -->
+
+        <section class="panel" id="alerts">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>Security Alerts</h2>
+
+                    <p>
+                        Detected suspicious network activity
+                    </p>
+
+                </div>
+
+                <span class="alert-count" id="alert-badge">
+                    0 ALERTS
+                </span>
+
+            </div>
+
+            <div id="alert-panel" class="alert-list">
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">✓</div>
+
+                    <strong>No active threats</strong>
+
+                    <p>
+                        Security alerts will appear here.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- NETWORK TRAFFIC -->
+
+        <section class="panel" id="traffic">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>Live Network Traffic</h2>
+
+                    <p>
+                        Incoming simulated network requests
+                    </p>
+
+                </div>
+
+                <span class="traffic-indicator">
+
+                    <span class="pulse-dot"></span>
+
+                    LIVE FEED
+
+                </span>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>TIME</th>
+                            <th>SOURCE IP</th>
+                            <th>DESTINATION IP</th>
+                            <th>REQUEST TYPE</th>
+                            <th>STATUS</th>
+                            <th>ATTEMPT</th>
+                            <th>DETECTION</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="traffic-table">
+
+                        <tr id="empty-row">
+
+                            <td colspan="7" class="empty-table">
+
+                                Waiting for network traffic...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="table-footer">
+
+                <span id="traffic-count">
+                    Showing 0 requests
+                </span>
+
+                <span>
+                    Maximum 200 displayed records
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <span>SENTINEL IDS © 2026</span>
+
+            <span>
+                SIMULATED NETWORK ENVIRONMENT
+            </span>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
